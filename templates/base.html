@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{ title|default('Shop online') }}{% endblock %} | AllCart</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/shop.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="{{ url_for('static',filename='js/shop.js') }}" defer></script>
+{% block head %}{% endblock %}</head>
+<body>{% from 'components.html' import csrf with context %}
+<a class="skip" href="#content">Skip to content</a>
+<header class="header"><div class="wrap header-main">
+<a class="brand" href="{{ url_for('public.home') }}"><span class="brand-mark"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i></span>All<span>Cart</span></a>
+<form class="search" action="{{ url_for('public.products') }}"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><input name="q" type="search" aria-label="Search products" placeholder="Search for products" maxlength="150"><button>Search</button></form>
+<div class="header-actions">{% if g.user %}<a href="{{ url_for('admin.dashboard' if g.user.role=='ADMIN' else 'account.dashboard') }}">Dashboard</a>{% if g.user.role=='USER' %}<a href="{{ url_for('account.cart') }}" title="Cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span class="sr">Cart</span></a>{% endif %}<form method="post" action="{{ url_for('public.logout') }}">{{ csrf() }}<button class="outline">Log out</button></form>
+{% else %}<a href="{{ url_for('public.login') }}">Log in</a><a class="button" href="{{ url_for('public.signup') }}">Sign up</a>{% endif %}</div></div>
+<nav class="topnav" aria-label="Main navigation"><div class="wrap"><a href="{{ url_for('public.home') }}">Home</a><a href="{{ url_for('public.categories') }}">Categories</a><a href="{{ url_for('public.products') }}">All Products</a><a href="{{ url_for('public.about') }}">About Us</a><a href="{{ url_for('public.contact') }}">Contact Us</a></div></nav></header>
+{% with messages=get_flashed_messages() %}{% if messages %}<div class="wrap notices" role="status">{% for message in messages %}<div>{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+<main id="content">{% block body %}{% endblock %}</main>
+<footer><div class="wrap footer-grid"><div><a class="brand" href="{{ url_for('public.home') }}"><span class="brand-mark"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i></span>AllCart</a><p>Everything You Love, All in One Place.</p></div><div><h3>Shop</h3><a href="{{ url_for('public.categories') }}">Categories</a><a href="{{ url_for('public.products') }}">All products</a></div><div><h3>AllCart</h3><a href="{{ url_for('public.about') }}">About us</a><a href="{{ url_for('public.contact') }}">Contact us</a></div></div><div class="wrap copyright">© AllCart</div></footer></body></html>

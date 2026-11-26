@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block body %}<div class="wrap workspace"><aside class="sidebar"><strong>{{ 'Store administration' if area=='admin' else 'My account' }}</strong><nav aria-label="Dashboard">
+{% if area=='admin' %}{% set links=[('dashboard','Overview','gauge'),('products','Products','box'),('categories','Categories','layer-group'),('orders','Orders','receipt'),('users','Users','users'),('inventory','Inventory','warehouse'),('reviews','Reviews','star'),('reports','Reports','chart-column')] %}{% else %}{% set links=[('dashboard','Overview','gauge'),('browse','Browse products','bag-shopping'),('cart','Shopping cart','cart-shopping'),('orders','My orders','receipt'),('wishlist','Wishlist','heart'),('profile','My profile','user')] %}{% endif %}
+{% for end,label,icon in links %}{% set endpoint=area ~ '.' ~ end %}<a {% if request.endpoint==endpoint %}aria-current="page"{% endif %} href="{{ url_for(endpoint) }}"><i class="fa-solid fa-{{ icon }}" aria-hidden="true"></i>{{ label }}</a>{% endfor %}</nav></aside>
+<section class="workspace-content">{% block dashboard %}{% endblock %}</section></div>{% endblock %}

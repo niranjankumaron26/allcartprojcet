@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% from 'components.html' import csrf with context %}
+{% block title %}{{ 'Create account' if signup else 'Log in' }}{% endblock %}{% block body %}<section class="wrap auth"><form class="panel form" method="post">{{ csrf() }}<h1>{{ 'Create your account' if signup else 'Welcome back' }}</h1>
+{% if signup %}<label>Full name<input name="name" autocomplete="name" maxlength="100" value="{{ request.form.get('name','') }}" required></label>{% endif %}
+<label>Email address<input name="email" type="email" autocomplete="username" maxlength="254" value="{{ request.form.get('email','') }}" required></label>
+{% if signup %}<label>Phone number<input name="phone" type="tel" autocomplete="tel" maxlength="20" value="{{ request.form.get('phone','') }}" required></label>{% endif %}
+<label>Password<input name="password" type="password" autocomplete="{{ 'new-password' if signup else 'current-password' }}" {% if signup %}minlength="8"{% endif %} maxlength="128" required></label>
+{% if signup %}<label>Confirm password<input name="confirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" required></label>{% endif %}
+<button>{{ 'Sign up' if signup else 'Log in' }}</button><p>{% if signup %}Already registered? <a href="{{ url_for('public.login') }}">Log in</a>{% else %}New to AllCart? <a href="{{ url_for('public.signup') }}">Create an account</a>{% endif %}</p></form></section>{% endblock %}
