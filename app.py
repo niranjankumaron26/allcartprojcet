@@ -76,6 +76,10 @@ def create_app(config=None):
     for code in (400, 403, 404, 413):
         app.register_error_handler(code, lambda error: (render_template("error.html", error=error), error.code))
 
+    @app.get("/healthz")
+    def healthz():
+        return {"status": "ok"}, 200
+
     @app.cli.command("seed")
     def seed():
         script = Path(app.root_path, "seed.sql").read_text(encoding="utf-8")
